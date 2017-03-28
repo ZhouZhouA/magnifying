@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		.wrap{
+			width:350px;
+			height: 350px;
+			border: 3px solid black;
+			border-width: 3px;
+			position: relative;
+			cursor: pointer;
+			margin-left: 10px;
+			margin-top: 10px;
+
+		}
+		.wrap img{
+			width: 350px;
+			height: 350px;
+		}
+		.div{
+			width: 100px;
+			height: 100px;
+			background-color: yellow;
+			opacity: 0.7;
+			position: absolute;
+			top: 0;
+			left: 0;
+			display: none;
+		}
+		.bigImg{
+			width: 500px;
+			height: 500px;
+			background-image: url(images/max.jpg);
+			background-position: 600px 600px;
+			background-repeat: no-repeat;
+			position: absolute;
+			left: 400px;
+			top: 10px;
+			border: 1px solid black;
+			display: none;
+		}
+	</style>		
+</head>
+<body>
+	<div class="wrap">
+		<img src="images/min.jpg" alt="">
+		<div class="div"></div>
+	</div>
+	<div class="bigImg">
+		<!-- <img src="images/max.jpg" alt=""> -->
+	</div>
+</body>
+<script type="text/javascript">
+	var div=document.getElementsByClassName('div')[0];
+	var wrap=document.getElementsByClassName("wrap")[0];
+	var bigImg=document.getElementsByClassName("bigImg")[0];
+	wrap.onmouseover=function(e) {
+		div.style.display="block";
+		bigImg.style.display="block";
+		var e=e || window.event;
+
+		document.onmousemove=function(e){
+			var e=e || window.event;
+			var moveX=e.clientX;
+			var moveY=e.clientY;
+			var wrapMarginLeft=parseInt(getComputedStyle(wrap,null).marginLeft);
+			var wrapMarginTop=parseInt(getComputedStyle(wrap,null).marginTop);
+
+			div.style.left=moveX-parseInt(div.offsetWidth)/2-wrapMarginLeft+"px";
+			div.style.top=moveY-parseInt(div.offsetHeight)/2-wrapMarginTop+"px";
+
+			if (parseInt(div.style.left)>=parseInt(wrap.offsetWidth)-parseInt(div.offsetWidth)){
+				div.style.left=parseInt(wrap.clientWidth)-parseInt(div.offsetWidth)+"px";
+			}
+			if (parseInt(div.style.top)>=parseInt(wrap.offsetHeight)-parseInt(div.offsetHeight)){
+				div.style.top=parseInt(wrap.clientHeight)-parseInt(div.offsetHeight)+"px";
+			}
+			if (parseInt(div.style.top)<=parseInt(getComputedStyle(wrap,null).borderWidth)) {
+				div.style.top=0+"px";
+			}
+			if (parseInt(div.style.left)<=parseInt(getComputedStyle(wrap,null).borderWidth)) {
+				div.style.left=0+"px";
+			}
+			console.log(div.style.left);
+
+			bigImgX=-parseInt(div.style.left)*800/350+120;
+			bigImgY=-parseInt(div.style.top)*800/350+120;
+			bigImg.style.backgroundPosition=bigImgX+"px"+" "+bigImgY+"px";
+
+		}
+	}
+	wrap.onmouseout=function() {
+		div.style.display="none";
+		bigImg.style.display="none";
+	}
+
+
+</script>
+</html>
